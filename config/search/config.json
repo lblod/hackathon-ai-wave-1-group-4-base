@@ -1,0 +1,53 @@
+{
+  "enable_raw_dsl_endpoint": true,
+  "eager_indexing_groups": [
+      [ { "name": "public", "variables" : [] } ],
+      [ { "name": "clean", "variables": [] } ]
+    ],
+    "default_settings" : {
+      "analysis": {
+        "analyzer": {
+          "dutchanalyzer": {
+            "tokenizer": "standard",
+            "filter": ["lowercase", "asciifolding", "dutchstemmer"]
+          }
+        },
+        "filter": {
+          "dutchstemmer": {
+            "type": "stemmer",
+            "name": "dutch"
+          }
+        }
+      }
+      },
+  "types": [
+    {
+      "type": "search-item",
+      "on_path": "search-items",
+      "rdf_type": [
+        "http://abb-hackathon.com/search#Item"
+      ],
+      "properties": {
+        "file": "http://abb-hackathon.com/search#filePath",
+        "content" : "http://abb-hackathon.com/search#content",
+        "embedding": {
+          "via" : "http://abb-hackathon.com/search#embedding",
+          "dense_vector": true
+        }
+      },
+      "mappings": {
+        "properties": {
+          "file": {
+            "type": "text"
+          },
+          "embedding": {
+            "type": "dense_vector",
+            "dims": 768,
+            "index": true,
+            "similarity": "cosine"
+          }
+        }
+      }
+    }
+  ]
+}
